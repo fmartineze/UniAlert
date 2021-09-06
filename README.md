@@ -11,8 +11,8 @@ UniAlert consists of two Python scripts:
 Requeriments
 -----------------
 - Python 3.8
-- Tzlocal library 1.4 
-- Pillow Library 4.2.1
+- Tzlocal library 2.1 
+- Pillow Library 8.1.0
 
 Install
 -----------------
@@ -20,8 +20,8 @@ Install
 After verifying that you have installed the correct version of Python, we will have to install the necessary libraries:
 
 ```
-pip install tzlocal==1.4
-pip install Pillow==4.2.1
+pip install tzlocal==2.1
+pip install Pillow==8.1.0
 ```
 
 Now we can copy the files *UA_Mailer.py*, *UA_Reporter.py* and *filters.json* in the path that we want.  p.e: `/opt/unialert`
