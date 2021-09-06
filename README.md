@@ -20,8 +20,7 @@ Install
 After verifying that you have installed the correct version of Python, we will have to install the necessary libraries:
 
 ```
-pip install tzlocal==2.1
-pip install Pillow==8.1.0
+pip install -r requirements.txt
 ```
 
 Now we can copy the files *UA_Mailer.py*, *UA_Reporter.py* and *filters.json* in the path that we want.  p.e: `/opt/unialert`
