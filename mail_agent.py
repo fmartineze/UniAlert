@@ -1,7 +1,7 @@
 #  -------------- PCpactico UniAlert v0.8b - Mail Parser (2017) ---------
 #  Requeriments:
 #      - tzlocal library 1.4 -> pip install tzlocal
-#      - Python 3.6
+#      - Python 3.8
 #  Considerations:
 #      - If you using Mail Parser with Gmail account, remenber give permissions to "less secure applications"
 #        Please open this link with your account https://myaccount.google.com/lesssecureapps

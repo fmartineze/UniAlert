@@ -10,7 +10,7 @@ UniAlert consists of two Python scripts:
 
 Requeriments
 -----------------
-- Python 2.7
+- Python 3.8
 - Tzlocal library 1.4 
 - Pillow Library 4.2.1
 
