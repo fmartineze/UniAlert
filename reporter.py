@@ -1,7 +1,7 @@
 
 #  -------------- PCpactico UniAlert v0.8b - Mail Reporter (2017) ---------
 #  Requeriments:
-#      - Pillow Library 4.2.1 -> pip install Pillow
+#      - Pillow Library 8.1.0 -> pip install Pillow==8.1.0
 #      - 
 #      - Python 3.8
 #  Considerations:
