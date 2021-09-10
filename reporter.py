@@ -115,7 +115,9 @@ def get_body_representation(status_list, error_body):
     f_error = 0
     f_success = 0
     f_alert = 0
-    html_body = "<div style=\"text-align: left;\"><table style=\"border-spacing: 0px;width:95%;padding:0px;\" align=center><tr style=\"color:white;background-color:"+ ( "#a32929" if error_body else "#0098ff") +";text-align: left;\"><th width=\"35%\" style=\"font-size:1vw\">TAREA "+ ( "FALLIDA" if error_body else "") +"</th><th width=\"25%\" style=\"font-size:1vw\">FECHA</th><th width=\"15%\" style=\"font-size:1vw\">ESTADO</th><th width=\"25%\" style=\"font-size:1vw\">ULTIMOS 30 DIAS</th><tr>\n"
+    html_body = "<div style=\"text-align: left;\"><table style=\"border-spacing: 0px;width:95%;padding:0px;\" align=center>"
+    html_body += "<tr style=\"color:white;background-color:"+ ( "#8c2323" if error_body else "#028ae6") +";text-align: left;\"><th colspan=\"4\" align=center>"+ ( "ERRORES DETECTADOS" if error_body else "RESUMEN TODAS LAS TAREAS")  +"</tr>\n"
+    html_body += "<tr style=\"color:white;background-color:"+ ( "#a32929" if error_body else "#0098ff") +";text-align: left;\"><th width=\"35%\" style=\"font-size:1vw\">TAREA "+ ( "FALLIDA" if error_body else "") +"</th><th width=\"25%\" style=\"font-size:1vw\">FECHA</th><th width=\"15%\" style=\"font-size:1vw\">ESTADO</th><th width=\"25%\" style=\"font-size:1vw\">ULTIMOS 30 DIAS</th></tr>\n"
 
     img_id=1
 
@@ -285,6 +287,7 @@ if json_data["activated"]:
     img_buff_err, html_body_err = get_body_representation(f_err, True)
 
     html_body = html_body_err + html_body
+
 
     print ("- Sending Email report")
     send_email_report(json_data["mail_config"], html_body, img_buff, img_buff_err, f_error, f_alert, f_success)
