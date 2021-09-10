@@ -230,7 +230,7 @@ def send_email_report(mail_config, html_body, bf_images, bf_images_err, f_error 
 
 
 #-- Comprueba listado SQL
-print ("\u001b[44;1m" + "### PCpactico UniAlert v0.5b - Mail Reporter (2017) - www.pcpractico.es ###" + "\u001b[0m")
+print ("\u001b[44;1m" + "### PCpactico UniAlert - Mail Reporter (2017) - www.pcpractico.es ###" + "\u001b[0m")
 
 Json_file = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'filters.json'# Gets the path where python was run
 SQLite_file = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'alertparser.db'# Gets the path where python was run
