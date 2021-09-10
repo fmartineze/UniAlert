@@ -38,6 +38,7 @@ To configure UniAlert, edit the filters.json file as shown below:
 
 | Parameter                  |  Description
 ----------------------|----------------------
+|language  |  You can select Spanish (es_ES), English (en_US) or French (fr_FR) as the language.|
 |last_update  | Date from which start comparing emails with filters. (Format %d/%m/%Y %H:%M:%S) |
 |mail_config| Mail configuration. |
 |mail_config \ from | Email address from which the summary is sent (myaccount@mydomain.com)|

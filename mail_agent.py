@@ -1,4 +1,4 @@
-#  -------------- PCpactico UniAlert v0.8b - Mail Parser (2017) ---------
+#  -------------- PCpactico UniAlert v0.9b - Mail Parser (2017) ---------
 #  Requeriments:
 #      - tzlocal library 2.1 -> pip install tzlocal==2.1
 #      - Python 3.8
@@ -26,6 +26,8 @@ import sqlite3
 import sys
 import os
 
+import gettext #Multilanguage lib
+
 # Connect to database
 def sqlite3_connect(sqlite3_file):
     try:
@@ -33,7 +35,7 @@ def sqlite3_connect(sqlite3_file):
         db_cur = db_con.cursor()
         return db_con, db_cur
     except sqlite3.Error as e:
-        print("- ERROR: en acceso SQLite.")
+        print("- "+ _("ERROR") +": "+ _("Can't connect to SQLite database."))
         sys.exit(1)
 
 # Insert rows into database
@@ -64,11 +66,10 @@ def sqlite3_delete(id_to_delete, filter_name, SQLite_file):
 # Return mail data from imap server
 def get_data_mail(filter_date_str, mail_config):
     try:
+        print ("- " + _("Connecting to mail server") + " " + mail_config["mail_server"] + ":" + str(mail_config["port"]) + " (SSL)")
         if mail_config["ssl"] == 1:
-            print ("- Connecting to mail server " + mail_config["mail_server"] + ":" + str(mail_config["port"]) + " (SSL)")
             mail_con = imaplib.IMAP4_SSL(mail_config["mail_server"], mail_config["port"])           
-        else:
-            print ("- Connecting to mail server " + mail_config["mail_server"] + ":" + str(mail_config["port"]) + " (SSL)")
+        else:           
             mail_con = imaplib.IMAP4(mail_config["mail_server"], mail_config["port"])
         mail_con.login(mail_config["user"], mail_config["password"])
         mail_con.select('inbox')
@@ -82,7 +83,7 @@ def get_data_mail(filter_date_str, mail_config):
 
         #return data
     except Exception as e:
-        print ("- ERROR: " + str(e))
+        print ("- "+ _("ERROR") + ": " + str(e))
         sys.exit()
 
 # Compare the mail data with the filters defineds into Json filter file.
@@ -148,7 +149,7 @@ def apply_filters(filtros, SQLite_file):
                             sqlite3_insert(filter["filter"],2,str(email_date.strftime("%d/%m/%Y %H:%M:%S")), SQLite_file)
                             result = "ERROR"
                     
-                    print (' * FOUND: '+ str(email_date.strftime("%d/%m/%Y %H:%M:%S")) +' [' + fname +'] = ' + result)
+                    print (' * ' + _('FOUND') + ': '+ str(email_date.strftime("%d/%m/%Y %H:%M:%S")) +' [' + fname +'] = ' + result)
 
 # RetCheck if a filter exist into Json file
 def exist_json_filter(filter_name, filters):
@@ -206,7 +207,7 @@ def get_json_data(json_file):
         with open(json_file) as data_file:
             return json.load(data_file)
     except:
-        print ("[!] ALERT: Config file does not exist.")
+        print ("[!] " + _("ALERT") +": " + _("Config file does not exist."))
         create_json_data(json_file)
         sys.exit(1)
 
@@ -216,6 +217,7 @@ def create_json_data(json_file):
     json_template = {
         "activated" : false,
         "last_update" : "01/01/2000 00:00:00",
+        "language" : "en_US",
         "mail_config" : {
             "from"        : "mailfrom@domain.com",
             "to"          : "mailto@domain.com",
@@ -256,25 +258,36 @@ def create_json_data(json_file):
     }
     with open(Json_file, 'w') as data_file:
         json.dump(json_template, data_file, indent=4,sort_keys=True)
-    print ("- Job done. Please edit the filters.json file and try again")
+    print ("- " + _("Job done. Please edit the filters.json file and try again"))
 
 
 # ------------------------------------------------------
 print ("\u001b[44;1m" + "### PCpactico UniAlert - Mail Agent (2017) - www.pcpractico.es ###" + "\u001b[0m")
-Json_file   = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'filters.json'# Gets the path where python was run
-SQLite_file = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'alertparser.db'# Gets the path where python was run
+Json_file   = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'filters.json' # Gets the path where python was run
+SQLite_file = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'alertparser.db' # Gets the path where python was run
+locale_path = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'locale' # Get the locale files path for multilanguage lib
+
+Json_data = get_json_data(Json_file)  # Retrieve Json data
+
+#select_lang = ['es_ES']
+select_lang = [Json_data["language"]]
+langs = gettext.translation('mail_agent', 
+                            locale_path, 
+                            languages=select_lang, 
+                            fallback=True,)
+_ = langs.gettext
 
 # --- Procesar argumentos ----- 
 if len(sys.argv) != 1:
     # Opción: Mostrar Ayuda
     if "-h" in sys.argv:
-        print ("- How to use: python \path\mail_agent [-option]")
-        print ("     [-h]     : Show this help and stop running")
-        print ("     [-j]     : Crear archivo de configuración Json")      
-        print ("     [-p]     : Path to config and database files")
+        print ("- "+ _("How to use") + ": python \path\mail_agent [-" + _("option") + "]")
+        print ("     [-h]     : "+ _("Show this help and stop running"))
+        print ("     [-j]     : "+ _("Create sample Json configuration file"))
+        print ("     [-p]     : "+ _("Path to config and database files"))
         print ("               -p:/opt/configfile/")        
-        print ("     [-r]     : Remove all data from the database and stop running")
-        print ("     [-y]     : Always say yes to any prompt")
+        print ("     [-r]     : "+ _("Remove all data from the database and stop running"))
+        print ("     [-y]     : "+ _("Always say yes to any prompt"))
         sys.exit()
     
     #Opción: indicar ruta archivos de bbdd y configuración
@@ -282,7 +295,7 @@ if len(sys.argv) != 1:
         pos =  [i for i, s in enumerate(sys.argv) if '-p' in s][0]
         ss = sys.argv[pos]
         #sys.exit()
-        print ("- Path to config and database files: " + ss.lower()[3:] )
+        print ("- "+ _("Path to config and database files") + ": " + ss.lower()[3:] )
 
         if ss.lower()[-1] == os.sep:
             param_path = ss.lower()[3:-1]
@@ -293,36 +306,36 @@ if len(sys.argv) != 1:
             Json_file = param_path + os.sep + 'filters.json'
             SQLite_file = param_path + os.sep + 'alertparser.db'
         else:
-            print ("[!] ERROR: Path does not exist or is incorrect.")
+            print ("[!] " + _("ERROR") +": " +  _("Path does not exist or is incorrect."))
             sys.exit()   
         if (  (not(os.path.exists(Json_file)) and (not("-j" in sys.argv) ))  ):
-            print ("[!] ALERT: Config file does not exist.")
+            print ("[!] " + _("ALERT") +": " +  _("Config file does not exist."))
             create_json_data(Json_file)
             sys.exit()    
             
     #Opción: Vaciar base de datos
     if "-r" in sys.argv:
-        print ("[!] ALERT: All data from the database will be deleted.")
+        print ("[!] " + _("ALERT") +": " +  _("All data from the database will be deleted."))
         while True:
             if ("-y" in sys.argv) :
-                print ("    Are you sure? [Y/N]: YES")
+                print ("    "+ _("Are you sure?") + " [Y/N]: YES")
                 sw1 = "y"
             else:
-                sw1 = input ("    Are you sure? [Y/N]: ")
+                sw1 = input ("    "+ _("Are you sure?") + " [Y/N]: ")
 
             if (sw1.lower() == "y"):
-                print ("- Removing all data from the database")
+                print ("- "+ _("Removing all data from the database"))
                 sqlite3_delete_all(SQLite_file)
-                print ("- Job done.")
+                print("- "+ _("Job done."))
                 break
             elif (sw1.lower() == "n"):
-                print("- Job canceled.")
+                print("- "+ _("Job canceled."))
                 break
         sys.exit()
     
     #Opción: Crear archivo configuración Json
     if "-j" in sys.argv:
-        print ("[!] ALERT: This will initialize the configuration file. If you already have a configuration file, this process will remove all of its content.")
+        print ("[!] " + _("ALERT") +": "+ _("This will initialize the configuration file. If you already have a configuration file, this process will remove all of its content."))
         if ("-y" in sys.argv) :
             print ("    Are you sure? [Y/N]: YES")
             sw1 = "y"
@@ -332,14 +345,14 @@ if len(sys.argv) != 1:
         if (sw1.lower() == "y"):
             create_json_data(Json_file)
         else:
-            print("- Job canceled.")
+            print("- "+ _("Job canceled."))
 
         sys.exit()
 
 # ------- 
 
-print ("- Loading Json data file: " + Json_file)
-Json_data = get_json_data(Json_file)  # Retrieve Json data
+print ("- "+ _("Json configuration file loaded")+": " + Json_file)
+
 
 if Json_data["activated"]:
     if Json_data["last_update"] == "":  # Get Last Update value from Json data file or get now if not exist
@@ -347,10 +360,10 @@ if Json_data["activated"]:
     else:
         last_update_date = datetime.strptime(Json_data["last_update"],'%d/%m/%Y %H:%M:%S')
 
-    print ("- Removing junk data")
+    print ("- " + _("Removing junk data"))
     clean_database(Json_data, SQLite_file)
 
-    print ("- Applying filters")
+    print ("- " + _("Applying filters"))
     apply_filters(Json_data, SQLite_file)
 
     #---- Modificar Json
@@ -361,8 +374,8 @@ if Json_data["activated"]:
         json.dump(sorted_json, data_file, indent=4,sort_keys=True)
 
 else:
-    print ("[!] ALERT: system disabled, please edit filters.json config file and enable it.")
+    print ("[!] " + _("ALERT") +": "+ _("system disabled, please edit filters.json config file and enable it."))
 
-print ("- Work done")
+print ("- "+ _("Work done"))
 
  

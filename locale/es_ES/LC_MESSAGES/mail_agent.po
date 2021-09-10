@@ -1,0 +1,122 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2021-09-10 17:43+0200\n"
+"PO-Revision-Date: 2021-09-10 20:24+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=cp1252\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_ES\n"
+"X-Generator: Poedit 3.0\n"
+
+#: mail_agent.py:38
+msgid "Can't connect to SQLite database."
+msgstr "No se puede conectar a la base de datos SQLite."
+
+#: mail_agent.py:38 mail_agent.py:86 mail_agent.py:307
+msgid "ERROR"
+msgstr "ERROR"
+
+#: mail_agent.py:69
+msgid "Connecting to mail server"
+msgstr "Conexión al servidor de correo"
+
+#: mail_agent.py:152
+msgid "FOUND"
+msgstr "ENCONTRADO"
+
+#: mail_agent.py:210 mail_agent.py:310
+msgid "Config file does not exist."
+msgstr "El archivo de configuración no existe."
+
+#: mail_agent.py:210 mail_agent.py:310 mail_agent.py:316 mail_agent.py:336
+#: mail_agent.py:375
+msgid "ALERT"
+msgstr "ALERTA"
+
+#: mail_agent.py:260
+msgid "Job done. Please edit the filters.json file and try again"
+msgstr "Trabajo hecho. Edite el archivo filters.json e inténtelo de nuevo"
+
+#: mail_agent.py:282
+msgid "How to use"
+msgstr "Como se usa"
+
+#: mail_agent.py:282
+msgid "option"
+msgstr "opción"
+
+#: mail_agent.py:283
+msgid "Show this help and stop running"
+msgstr "Mostrar esta ayuda y dejar de ejecutar"
+
+#: mail_agent.py:284
+msgid "Create sample Json configuration file"
+msgstr "Crear archivo de configuración de muestra de Json"
+
+#: mail_agent.py:285 mail_agent.py:296
+msgid "Path to config and database files"
+msgstr "Ruta a los archivos de configuración y base de datos"
+
+#: mail_agent.py:287
+msgid "Remove all data from the database and stop running"
+msgstr "Elimina todos los datos de la base de datos y deja de ejecutar"
+
+#: mail_agent.py:288
+msgid "Always say yes to any prompt"
+msgstr "Diga siempre que sí a cualquier pregunta"
+
+#: mail_agent.py:307
+msgid "Path does not exist or is incorrect."
+msgstr "La ruta no existe o es incorrecta."
+
+#: mail_agent.py:316
+msgid "All data from the database will be deleted."
+msgstr "Se eliminarán todos los datos de la base de datos."
+
+#: mail_agent.py:319 mail_agent.py:322
+msgid "Are you sure?"
+msgstr "¿Está Seguro?"
+
+#: mail_agent.py:325
+msgid "Removing all data from the database"
+msgstr "Eliminar todos los datos de la base de datos"
+
+#: mail_agent.py:327
+msgid "Job done."
+msgstr "Trabajo completado."
+
+#: mail_agent.py:330 mail_agent.py:346
+msgid "Job canceled."
+msgstr "Trabajo cancelado."
+
+#: mail_agent.py:336
+msgid "This will initialize the configuration file. If you already have a configuration file, this process will remove all of its content."
+msgstr "Esto inicializará el archivo de configuración. Si ya tiene un archivo de configuración, este proceso eliminará todo su contenido."
+
+#: mail_agent.py:352
+msgid "Json configuration file loaded"
+msgstr "Archivo de configuración Json cargado"
+
+#: mail_agent.py:361
+msgid "Removing junk data"
+msgstr "Eliminar datos basura"
+
+#: mail_agent.py:364
+msgid "Applying filters"
+msgstr "Aplicando filtros"
+
+#: mail_agent.py:375
+msgid "system disabled, please edit filters.json config file and enable it."
+msgstr "sistema deshabilitado, edite el archivo de configuración filter.json y habilítelo."
+
+#: mail_agent.py:377
+msgid "Work done"
+msgstr "Trabajo completado"
