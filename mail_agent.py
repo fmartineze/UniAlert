@@ -215,7 +215,7 @@ def get_json_data(json_file):
 def create_json_data(json_file):
     print ("- Initializing configuration file: ", Json_file)
     json_template = {
-        "activated" : false,
+        "activated" : "false",
         "last_update" : "01/01/2000 00:00:00",
         "language" : "en_US",
         "mail_config" : {
@@ -258,7 +258,7 @@ def create_json_data(json_file):
     }
     with open(Json_file, 'w') as data_file:
         json.dump(json_template, data_file, indent=4,sort_keys=True)
-    print ("- " + _("Job done. Please edit the filters.json file and try again"))
+    print ("- Job done. Please edit the filters.json file and try again")
 
 
 # ------------------------------------------------------
@@ -267,34 +267,14 @@ Json_file   = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'filters.js
 SQLite_file = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'alertparser.db' # Gets the path where python was run
 locale_path = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'locale' # Get the locale files path for multilanguage lib
 
-Json_data = get_json_data(Json_file)  # Retrieve Json data
-
-select_lang = [Json_data["language"]]
-langs = gettext.translation('mail_agent', 
-                            locale_path, 
-                            languages=select_lang, 
-                            fallback=True,)
-_ = langs.gettext
-
-# --- Procesar argumentos ----- 
+# --- Procesa el argumento "-p" antes de cargar el archivo Json.
 if len(sys.argv) != 1:
-    # Opción: Mostrar Ayuda
-    if "-h" in sys.argv:
-        print ("- "+ _("How to use") + ": python \path\mail_agent [-" + _("option") + "]")
-        print ("     [-h]     : "+ _("Show this help and stop running"))
-        print ("     [-j]     : "+ _("Create sample Json configuration file"))
-        print ("     [-p]     : "+ _("Path to config and database files"))
-        print ("               -p:/opt/configfile/")        
-        print ("     [-r]     : "+ _("Remove all data from the database and stop running"))
-        print ("     [-y]     : "+ _("Always say yes to any prompt"))
-        sys.exit()
-    
     #Opción: indicar ruta archivos de bbdd y configuración
     if any("-p" in x for x in sys.argv):
         pos =  [i for i, s in enumerate(sys.argv) if '-p' in s][0]
         ss = sys.argv[pos]
         #sys.exit()
-        print ("- "+ _("Path to config and database files") + ": " + ss.lower()[3:] )
+        print ("- Path to config and database files: " + ss.lower()[3:] )
 
         if ss.lower()[-1] == os.sep:
             param_path = ss.lower()[3:-1]
@@ -305,36 +285,73 @@ if len(sys.argv) != 1:
             Json_file = param_path + os.sep + 'filters.json'
             SQLite_file = param_path + os.sep + 'alertparser.db'
         else:
-            print ("[!] " + _("ERROR") +": " +  _("Path does not exist or is incorrect."))
+            print ("[!] : Path does not exist or is incorrect.")
             sys.exit()   
         if (  (not(os.path.exists(Json_file)) and (not("-j" in sys.argv) ))  ):
-            print ("[!] " + _("ALERT") +": " +  _("Config file does not exist."))
+            print ("[!] ALERT: Config file does not exist.")
             create_json_data(Json_file)
             sys.exit()    
-            
+
+
+
+# --- Procesar argumentos ----- 
+if len(sys.argv) != 1:
+    # Opción: Mostrar Ayuda
+    if "-h" in sys.argv:
+        print ("- How to use: python \path\mail_agent [-option]")
+        print ("     [-h]     : Show this help and stop running")
+        print ("     [-j]     : Create sample Json configuration file")
+        print ("     [-p]     : Path to config and database files")
+        print ("               -p:/opt/configfile/")        
+        print ("     [-r]     : Remove all data from the database and stop running")
+        print ("     [-y]     : Always say yes to any prompt")
+        sys.exit()
+    #Opción: indicar ruta archivos de bbdd y configuración
+    if any("-p" in x for x in sys.argv):
+        pos =  [i for i, s in enumerate(sys.argv) if '-p' in s][0]
+        ss = sys.argv[pos]
+        #sys.exit()
+        print ("- Path to config and database files: " + ss.lower()[3:] )
+
+        if ss.lower()[-1] == os.sep:
+            param_path = ss.lower()[3:-1]
+        else: 
+            param_path = ss.lower()[3:]
+
+        if os.path.exists(param_path):
+            Json_file = param_path + os.sep + 'filters.json'
+            SQLite_file = param_path + os.sep + 'alertparser.db'
+        else:
+            print ("[!] : Path does not exist or is incorrect.")
+            sys.exit()   
+        if (  (not(os.path.exists(Json_file)) and (not("-j" in sys.argv) ))  ):
+            print ("[!] ALERT: Config file does not exist.")
+            create_json_data(Json_file)
+            sys.exit() 
+
     #Opción: Vaciar base de datos
     if "-r" in sys.argv:
-        print ("[!] " + _("ALERT") +": " +  _("All data from the database will be deleted."))
+        print ("[!] ALERT: All data from the database will be deleted.")
         while True:
             if ("-y" in sys.argv) :
-                print ("    "+ _("Are you sure?") + " [Y/N]: YES")
+                print ("    Are you sure? [Y/N]: YES")
                 sw1 = "y"
             else:
-                sw1 = input ("    "+ _("Are you sure?") + " [Y/N]: ")
+                sw1 = input ("    Are you sure? [Y/N]: ")
 
             if (sw1.lower() == "y"):
-                print ("- "+ _("Removing all data from the database"))
+                print ("- Removing all data from the database")
                 sqlite3_delete_all(SQLite_file)
-                print("- "+ _("Job done."))
+                print("- Job done.")
                 break
             elif (sw1.lower() == "n"):
-                print("- "+ _("Job canceled."))
+                print("- Job canceled.")
                 break
         sys.exit()
     
     #Opción: Crear archivo configuración Json
     if "-j" in sys.argv:
-        print ("[!] " + _("ALERT") +": "+ _("This will initialize the configuration file. If you already have a configuration file, this process will remove all of its content."))
+        print ("[!] ALERT: This will initialize the configuration file. If you already have a configuration file, this process will remove all of its content.")
         if ("-y" in sys.argv) :
             print ("    Are you sure? [Y/N]: YES")
             sw1 = "y"
@@ -344,11 +361,21 @@ if len(sys.argv) != 1:
         if (sw1.lower() == "y"):
             create_json_data(Json_file)
         else:
-            print("- "+ _("Job canceled."))
+            print("- Job canceled.")
 
         sys.exit()
 
 # ------- 
+
+Json_data = get_json_data(Json_file)  # Retrieve Json data
+
+# --- Carga el archivo de idioma correspondiente
+select_lang = [Json_data["language"]]
+langs = gettext.translation('mail_agent', 
+                            locale_path, 
+                            languages=select_lang, 
+                            fallback=True,)
+_ = langs.gettext
 
 print ("- "+ _("Json configuration file loaded")+": " + Json_file)
 
