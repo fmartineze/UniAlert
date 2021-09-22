@@ -239,27 +239,17 @@ locale_path = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'locale' # 
 
 today = datetime.strptime(datetime.now().strftime('%d/%m/%Y'),'%d/%m/%Y')
 
-print ("- Cfg. Json: " + Json_file)
-json_data = get_json_data(Json_file)  # Retrieve Json data
-lastsync = datetime.strptime(json_data["last_update"],'%d/%m/%Y %H:%M:%S')
-
-select_lang = [json_data["language"]]  # Get default language
-langs = gettext.translation('reporter', 
-                            locale_path, 
-                            languages=select_lang, 
-                            fallback=True,)
-_ = langs.gettext
-
+# --- Procesar argumentos ----- 
 if len(sys.argv) != 1:
    for ss in sys.argv:
         if ss.lower() == "-h":
-            print ("- " + _("How to use") +": python \path\mail_agent [-h][-r]")
-            print ("     [-h] : " + _("Show this help and stop running"))
-            print ("     [-p] : " + _("Path to config and database files"))
+            print ("- How to use: python \path\mail_agent [-h][-r]")
+            print ("     [-h] : Show this help and stop running")
+            print ("     [-p] : Path to config and database files")
             print ("           -p:/opt/configfile/")
             sys.exit()
         if ss.lower()[:3] == "-p:":
-            print ("- " + _("Path to config and database files") +": " + ss.lower()[3:] )
+            print ("- Path to config and database files: " + ss.lower()[3:] )
             if ss.lower()[-1] == os.sep:
                 param_path = ss.lower()[3:-1]
             else: 
@@ -269,12 +259,26 @@ if len(sys.argv) != 1:
                 Json_file = param_path + os.sep + 'filters.json'
                 SQLite_file = param_path + os.sep + 'alertparser.db'
             else:
-                print ("[!] " + _("Path does not exist or is incorrect."))
+                print ("[!] Path does not exist or is incorrect.")
                 sys.exit()   
             
             if not(os.path.exists(Json_file)):
-                print ("[!] " + _("Config file does not exist."))
+                print ("[!] Config file does not exist.")
                 sys.exit()   
+
+# --- Carga archivo de configuración Json
+print ("- Cfg. Json: " + Json_file)
+json_data = get_json_data(Json_file)  # Retrieve Json data
+lastsync = datetime.strptime(json_data["last_update"],'%d/%m/%Y %H:%M:%S')
+
+# --- Carga el archivo de idioma correspondiente
+select_lang = [json_data["language"]]  # Get default language
+langs = gettext.translation('reporter', 
+                            locale_path, 
+                            languages=select_lang, 
+                            fallback=True,)
+_ = langs.gettext
+
 
 if json_data["activated"]:
     print ("- " + _("Connecting to database")+ ": " + SQLite_file)
