@@ -26,7 +26,7 @@ msgstr "ERROR"
 
 #: mail_agent.py:69
 msgid "Connecting to mail server"
-msgstr "Conexión al servidor de correo"
+msgstr "Conexiï¿½n al servidor de correo"
 
 #: mail_agent.py:152
 msgid "FOUND"
@@ -34,7 +34,7 @@ msgstr "ENCONTRADO"
 
 #: mail_agent.py:210 mail_agent.py:310
 msgid "Config file does not exist."
-msgstr "El archivo de configuración no existe."
+msgstr "El archivo de configuraciï¿½n no existe."
 
 #: mail_agent.py:210 mail_agent.py:310 mail_agent.py:316 mail_agent.py:336
 #: mail_agent.py:375
@@ -43,7 +43,7 @@ msgstr "ALERTA"
 
 #: mail_agent.py:260
 msgid "Job done. Please edit the filters.json file and try again"
-msgstr "Trabajo hecho. Edite el archivo filters.json e inténtelo de nuevo"
+msgstr "Trabajo hecho. Edite el archivo filters.json e intï¿½ntelo de nuevo"
 
 #: mail_agent.py:282
 msgid "How to use"
@@ -51,7 +51,7 @@ msgstr "Como se usa"
 
 #: mail_agent.py:282
 msgid "option"
-msgstr "opción"
+msgstr "opciï¿½n"
 
 #: mail_agent.py:283
 msgid "Show this help and stop running"
@@ -59,11 +59,11 @@ msgstr "Mostrar esta ayuda y dejar de ejecutar"
 
 #: mail_agent.py:284
 msgid "Create sample Json configuration file"
-msgstr "Crear archivo de configuración de muestra de Json"
+msgstr "Crear archivo de configuraciï¿½n de muestra de Json"
 
 #: mail_agent.py:285 mail_agent.py:296
 msgid "Path to config and database files"
-msgstr "Ruta a los archivos de configuración y base de datos"
+msgstr "Ruta a los archivos de configuraciï¿½n y base de datos"
 
 #: mail_agent.py:287
 msgid "Remove all data from the database and stop running"
@@ -71,7 +71,7 @@ msgstr "Elimina todos los datos de la base de datos y deja de ejecutar"
 
 #: mail_agent.py:288
 msgid "Always say yes to any prompt"
-msgstr "Diga siempre que sí a cualquier pregunta"
+msgstr "Diga siempre que sï¿½ a cualquier pregunta"
 
 #: mail_agent.py:307
 msgid "Path does not exist or is incorrect."
@@ -79,11 +79,11 @@ msgstr "La ruta no existe o es incorrecta."
 
 #: mail_agent.py:316
 msgid "All data from the database will be deleted."
-msgstr "Se eliminarán todos los datos de la base de datos."
+msgstr "Se eliminarï¿½n todos los datos de la base de datos."
 
 #: mail_agent.py:319 mail_agent.py:322
 msgid "Are you sure?"
-msgstr "¿Está Seguro?"
+msgstr "ï¿½Estï¿½ Seguro?"
 
 #: mail_agent.py:325
 msgid "Removing all data from the database"
@@ -99,11 +99,11 @@ msgstr "Trabajo cancelado."
 
 #: mail_agent.py:336
 msgid "This will initialize the configuration file. If you already have a configuration file, this process will remove all of its content."
-msgstr "Esto inicializará el archivo de configuración. Si ya tiene un archivo de configuración, este proceso eliminará todo su contenido."
+msgstr "Esto inicializarï¿½ el archivo de configuraciï¿½n. Si ya tiene un archivo de configuraciï¿½n, este proceso eliminarï¿½ todo su contenido."
 
 #: mail_agent.py:352
 msgid "Json configuration file loaded"
-msgstr "Archivo de configuración Json cargado"
+msgstr "Archivo de configuraciï¿½n Json cargado"
 
 #: mail_agent.py:361
 msgid "Removing junk data"
@@ -115,7 +115,7 @@ msgstr "Aplicando filtros"
 
 #: mail_agent.py:375
 msgid "system disabled, please edit filters.json config file and enable it."
-msgstr "sistema deshabilitado, edite el archivo de configuración filter.json y habilítelo."
+msgstr "sistema deshabilitado, edite el archivo de configuraciï¿½n filter.json y habilï¿½telo."
 
 #: mail_agent.py:377
 msgid "Work done"

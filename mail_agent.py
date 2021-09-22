@@ -269,7 +269,6 @@ locale_path = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'locale' # 
 
 Json_data = get_json_data(Json_file)  # Retrieve Json data
 
-#select_lang = ['es_ES']
 select_lang = [Json_data["language"]]
 langs = gettext.translation('mail_agent', 
                             locale_path, 

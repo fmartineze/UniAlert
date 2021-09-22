@@ -36,6 +36,7 @@ from email.mime.image import MIMEImage
 #------- Otras
 import os
 import sys
+import gettext #Multilanguage lib
 
 
 # Retrieve Json Data
@@ -44,8 +45,8 @@ def get_json_data(json_file):
         with open(json_file) as data_file:
             return json.load(data_file)
     except:
-        print ("[!] ERROR: No existe: ", json_file)
-        print ("    Ejecute primero mail-agent para generar el archivo Json y editelo posteriormente.")
+        print ("[!] ERROR: " + _("Not found: "), json_file)
+        print ("    " + _("Run mail-agent first to generate the Json file and edit it later."))
         sys.exit(1)
             
 
@@ -116,8 +117,8 @@ def get_body_representation(status_list, error_body):
     f_success = 0
     f_alert = 0
     html_body = "<div style=\"text-align: left;\"><table style=\"border-spacing: 0px;width:95%;padding:0px;\" align=center>"
-    html_body += "<tr style=\"color:white;background-color:"+ ( "#8c2323" if error_body else "#028ae6") +";text-align: left;\"><th colspan=\"4\" align=center>"+ ( "ERRORES DETECTADOS" if error_body else "RESUMEN TODAS LAS TAREAS")  +"</tr>\n"
-    html_body += "<tr style=\"color:white;background-color:"+ ( "#a32929" if error_body else "#0098ff") +";text-align: left;\"><th width=\"35%\" style=\"font-size:1vw\">TAREA "+ ( "FALLIDA" if error_body else "") +"</th><th width=\"25%\" style=\"font-size:1vw\">FECHA</th><th width=\"15%\" style=\"font-size:1vw\">ESTADO</th><th width=\"25%\" style=\"font-size:1vw\">ULTIMOS 30 DIAS</th></tr>\n"
+    html_body += "<tr style=\"color:white;background-color:"+ ( "#8c2323" if error_body else "#028ae6") +";text-align: left;\"><th colspan=\"4\" align=center>"+ ( _("ERRORS DETECTED") if error_body else _("SUMMARY OF ALL TASKS"))  +"</tr>\n"
+    html_body += "<tr style=\"color:white;background-color:"+ ( "#a32929" if error_body else "#0098ff") +";text-align: left;\"><th width=\"35%\" style=\"font-size:1vw\">" + _("TASK") + "</th><th width=\"25%\" style=\"font-size:1vw\">" + _("DATE") + "</th><th width=\"15%\" style=\"font-size:1vw\">" + _("STATUS") +"</th><th width=\"25%\" style=\"font-size:1vw\">" + _("LAST 30 DAYS") + "</th></tr>\n"
 
     img_id=1
 
@@ -176,15 +177,15 @@ def get_body_representation(status_list, error_body):
         if row[3] == 0:  # Estado
             html_body = html_body + "<td style=\"font-size:1.2vw\">----</td>"
         elif row[3] == 1:
-            html_body = html_body + "<td style=\"font-size:1.2vw\">VALIDO</td>"
+            html_body = html_body + "<td style=\"font-size:1.2vw\">" + _("VALID") +"</td>"
             f_success += 1
             
         elif row[3] == 2:
-            html_body = html_body + "<td style=\"font-size:1.2vw\">ERROR</td>"
+            html_body = html_body + "<td style=\"font-size:1.2vw\">" + _("ERROR") + "</td>"
             f_error += 1
             
         else:
-            html_body = html_body + "<td style=\"font-size:1.2vw\">ALERTA</td>"
+            html_body = html_body + "<td style=\"font-size:1.2vw\">" + _("ALERT") +"</td>"
             f_alert += 1
             
         if error_body:
@@ -202,7 +203,7 @@ def get_body_representation(status_list, error_body):
 
 def send_email_report(mail_config, html_body, bf_images, bf_images_err, f_error = 0, f_alert = 0, f_success = 0):
     msg = MIMEMultipart('multipart')
-    msg['Subject'] = "=?utf-8?Q?=F0=9F=94=94?= RESUMEN DIARIO BACKUPS  [=?utf-8?Q?=E2=9D=8C?= " + str(f_error) + " =?utf-8?Q?=E2=9C=94?= "+ str(f_success) +"]"
+    msg['Subject'] = "=?utf-8?Q?=F0=9F=94=94?= " + _("DAILY SUMMARY BACKUPS") + "  [=?utf-8?Q?=E2=9D=8C?= " + str(f_error) + " =?utf-8?Q?=E2=9C=94?= "+ str(f_success) +"]"
     msg['From'] = mail_config["from"]
     msg['To'] = mail_config["to"]
     msg.preamble = 'This is a multi-part message in MIME format.'
@@ -234,18 +235,31 @@ print ("\u001b[44;1m" + "### PCpactico UniAlert - Mail Reporter (2017) - www.pcp
 
 Json_file = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'filters.json'# Gets the path where python was run
 SQLite_file = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'alertparser.db'# Gets the path where python was run
+locale_path = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'locale' # Get the locale files path for multilanguage lib
+
 today = datetime.strptime(datetime.now().strftime('%d/%m/%Y'),'%d/%m/%Y')
+
+print ("- Cfg. Json: " + Json_file)
+json_data = get_json_data(Json_file)  # Retrieve Json data
+lastsync = datetime.strptime(json_data["last_update"],'%d/%m/%Y %H:%M:%S')
+
+select_lang = [json_data["language"]]  # Get default language
+langs = gettext.translation('reporter', 
+                            locale_path, 
+                            languages=select_lang, 
+                            fallback=True,)
+_ = langs.gettext
 
 if len(sys.argv) != 1:
    for ss in sys.argv:
         if ss.lower() == "-h":
-            print ("- How to use: python \path\mail_agent [-h][-r]")
-            print ("     [-h] : Show this help and stop running")
-            print ("     [-p] : Path to config and database files")
+            print ("- " + _("How to use") +": python \path\mail_agent [-h][-r]")
+            print ("     [-h] : " + _("Show this help and stop running"))
+            print ("     [-p] : " + _("Path to config and database files"))
             print ("           -p:/opt/configfile/")
             sys.exit()
         if ss.lower()[:3] == "-p:":
-            print ("- Path to config and database files: " + ss.lower()[3:] )
+            print ("- " + _("Path to config and database files") +": " + ss.lower()[3:] )
             if ss.lower()[-1] == os.sep:
                 param_path = ss.lower()[3:-1]
             else: 
@@ -255,24 +269,18 @@ if len(sys.argv) != 1:
                 Json_file = param_path + os.sep + 'filters.json'
                 SQLite_file = param_path + os.sep + 'alertparser.db'
             else:
-                print ("[!] Path does not exist or is incorrect.")
+                print ("[!] " + _("Path does not exist or is incorrect."))
                 sys.exit()   
             
             if not(os.path.exists(Json_file)):
-                print ("[!] Config file does not exist.")
+                print ("[!] " + _("Config file does not exist."))
                 sys.exit()   
 
-
-
-print ("- Loading Json data file: " + Json_file)
-json_data = get_json_data(Json_file)  # Retrieve Json data
-lastsync = datetime.strptime(json_data["last_update"],'%d/%m/%Y %H:%M:%S')
-
 if json_data["activated"]:
-    print ("- Connecting to database: " + SQLite_file)
+    print ("- " + _("Connecting to database")+ ": " + SQLite_file)
     db_con, db_cur = sqlite3_connect(SQLite_file)
 
-    print ("- Generating result masks")
+    print ("- " + _("Generating result masks"))
     a = get_filters_status(json_data["pcpfilters"], db_cur, today)
     db_con.close()
 
@@ -281,7 +289,7 @@ if json_data["activated"]:
         if item_r[3] > 1:
             f_err.append(item_r)
 
-    print ("- Generating images and Html report")
+    print ("- " + _("Generating images and Html report"))
 
     img_buff, html_body, f_error, f_alert, f_success = get_body_representation(a, False)
     img_buff_err, html_body_err = get_body_representation(f_err, True)
@@ -289,12 +297,12 @@ if json_data["activated"]:
     html_body = html_body_err + html_body
 
 
-    print ("- Sending Email report")
+    print ("- " + _("Sending Email report"))
     send_email_report(json_data["mail_config"], html_body, img_buff, img_buff_err, f_error, f_alert, f_success)
 else:
-    print ("[!] ALERT: system disabled, please edit filters.json config file and enable it.")
+    print ("[!] ALERT: " + _("system disabled, please edit filters.json config file and enable it."))
 
-print ("- Work done")
+print ("- " + _("Work done"))
 
 
 

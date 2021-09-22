@@ -1,0 +1,109 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2021-09-22 17:06+0200\n"
+"PO-Revision-Date: 2021-09-22 17:14+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=cp1252\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_ES\n"
+"X-Generator: Poedit 3.0\n"
+
+#: reporter.py:48
+msgid "Not found: "
+msgstr "No encontrado: "
+
+#: reporter.py:49
+msgid "Run mail-agent first to generate the Json file and edit it later."
+msgstr "Ejecute primero el agente de correo para generar el archivo Json y editarlo más tarde."
+
+#: reporter.py:120
+msgid "ERRORS DETECTED"
+msgstr "ERRORES DETECTADOS"
+
+#: reporter.py:120
+msgid "SUMMARY OF ALL TASKS"
+msgstr "Eliminar todos los datos de la base de datos"
+
+#: reporter.py:121
+msgid "DATE"
+msgstr "FECHA"
+
+#: reporter.py:121
+msgid "LAST 30 DAYS"
+msgstr "ÚLTIMOS 30 DÍAS"
+
+#: reporter.py:121
+msgid "STATUS"
+msgstr "ESTADO"
+
+#: reporter.py:121
+msgid "TASK"
+msgstr "TAREA"
+
+#: reporter.py:180
+msgid "VALID"
+msgstr "VALIDO"
+
+#: reporter.py:184
+msgid "ERROR"
+msgstr "ERROR"
+
+#: reporter.py:188
+msgid "ALERT"
+msgstr "ALERTA"
+
+#: reporter.py:206
+msgid "DAILY SUMMARY BACKUPS"
+msgstr "REPORTE DIARIO DE COPIAS DE SEGURIDAD"
+
+#: reporter.py:256
+msgid "How to use"
+msgstr "Como se usa"
+
+#: reporter.py:257
+msgid "Show this help and stop running"
+msgstr "Mostrar esta ayuda y dejar de ejecutar"
+
+#: reporter.py:258 reporter.py:262
+msgid "Path to config and database files"
+msgstr "Ruta a los archivos de configuración y base de datos"
+
+#: reporter.py:272
+msgid "Path does not exist or is incorrect."
+msgstr "La ruta no existe o es incorrecta."
+
+#: reporter.py:276
+msgid "Config file does not exist."
+msgstr "El archivo de configuración no existe."
+
+#: reporter.py:280
+msgid "Connecting to database"
+msgstr "Conectando a la base de datos"
+
+#: reporter.py:283
+msgid "Generating result masks"
+msgstr "Generación de máscaras de resultados"
+
+#: reporter.py:292
+msgid "Generating images and Html report"
+msgstr "Generación de imágenes e informe Html"
+
+#: reporter.py:300
+msgid "Sending Email report"
+msgstr "Enviando Email de reporte"
+
+#: reporter.py:303
+msgid "system disabled, please edit filters.json config file and enable it."
+msgstr "sistema deshabilitado, edite el archivo de configuración filter.json y habilítelo."
+
+#: reporter.py:305
+msgid "Work done"
+msgstr "Trabajo completado"
