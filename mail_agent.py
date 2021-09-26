@@ -13,18 +13,19 @@
 # Build DockerFile:  docker build -t unialert .
 # -----------------------------------------------------------------------
 
-import smtplib
+#import smtplib
 import imaplib
 import email
 from email.header import  decode_header
 from email.utils import parsedate_tz, mktime_tz
 from datetime import datetime, timedelta
 from tzlocal import get_localzone
-import time
+#import time
 import json
 import sqlite3
 import sys
 import os
+from datetime import datetime
 
 import gettext #Multilanguage lib
 
@@ -263,6 +264,9 @@ def create_json_data(json_file):
 
 # ------------------------------------------------------
 print ("\u001b[44;1m" + "### PCpactico UniAlert - Mail Agent (2017) - www.pcpractico.es ###" + "\u001b[0m")
+
+now = datetime.now()
+print("- " + now.strftime("%d/%m/%Y %H:%M:%S") )
 Json_file   = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'filters.json' # Gets the path where python was run
 SQLite_file = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'alertparser.db' # Gets the path where python was run
 locale_path = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'locale' # Get the locale files path for multilanguage lib
