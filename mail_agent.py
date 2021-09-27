@@ -271,33 +271,6 @@ Json_file   = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'filters.js
 SQLite_file = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'alertparser.db' # Gets the path where python was run
 locale_path = os.path.dirname(os.path.realpath(__file__)) + os.sep + 'locale' # Get the locale files path for multilanguage lib
 
-# --- Procesa el argumento "-p" antes de cargar el archivo Json.
-if len(sys.argv) != 1:
-    #Opción: indicar ruta archivos de bbdd y configuración
-    if any("-p" in x for x in sys.argv):
-        pos =  [i for i, s in enumerate(sys.argv) if '-p' in s][0]
-        ss = sys.argv[pos]
-        #sys.exit()
-        print ("- Path to config and database files: " + ss.lower()[3:] )
-
-        if ss.lower()[-1] == os.sep:
-            param_path = ss.lower()[3:-1]
-        else: 
-            param_path = ss.lower()[3:]
-
-        if os.path.exists(param_path):
-            Json_file = param_path + os.sep + 'filters.json'
-            SQLite_file = param_path + os.sep + 'alertparser.db'
-        else:
-            print ("[!] : Path does not exist or is incorrect.")
-            sys.exit()   
-        if (  (not(os.path.exists(Json_file)) and (not("-j" in sys.argv) ))  ):
-            print ("[!] ALERT: Config file does not exist.")
-            create_json_data(Json_file)
-            sys.exit()    
-
-
-
 # --- Procesar argumentos ----- 
 if len(sys.argv) != 1:
     # Opción: Mostrar Ayuda
