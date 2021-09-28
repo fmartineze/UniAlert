@@ -26,6 +26,7 @@ import sqlite3
 import sys
 import os
 from datetime import datetime
+import base64
 
 import gettext #Multilanguage lib
 
@@ -106,17 +107,29 @@ def apply_filters(filtros, SQLite_file):
         email_date_utc = msg2['date']
         email_body = ''
         if msg2.is_multipart():
-            for payload in msg2.get_payload():
-                email_body = email_body + str(payload)
+
+            #for payload in msg2.get_payload():               
+            for payload in msg2.walk():               
+                ctype = payload.get_content_type()
+                cdispo = str(payload.get('Content-Disposition'))
+                if ctype == 'text/plain' and 'attachment' not in cdispo:
+                    body = str(payload.get_payload(decode=True))
+                else:
+                    body = payload.as_string()
+
+                email_body = email_body + body                   
         else:
             email_body = msg2.get_payload(decode=True)
+        
 
         timestamp = mktime_tz(parsedate_tz(email_date_utc))       
         email_date = datetime.fromtimestamp(timestamp, get_localzone())
         email_date_witout_tz = datetime.strptime(email_date.strftime("%d/%m/%Y %H:%M:%S"),'%d/%m/%Y %H:%M:%S')
         
         if (last_update_date <= email_date_witout_tz):
+            
             #print ('* PARSING: '+ email_subject)
+
             for filter in filtros["pcpfilters"]:
                 result = ""
                 ftipo = filter["type"]
@@ -124,6 +137,7 @@ def apply_filters(filtros, SQLite_file):
                 ffrom =  filter["id_filter"]["from"]
                 fsubject = filter["id_filter"]["subject"]
                 fbody = filter["id_filter"]["body"]
+                
                 if (((ffrom in email_from) or (ffrom == "")) and ((fbody in str(email_body)) or (fbody == "")) and ((fsubject in email_subject) or (fsubject == ""))) and not(fbody == "" and fsubject == "" ):
                     
                     if ftipo == "search":
