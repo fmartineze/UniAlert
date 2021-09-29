@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2021-09-22 17:06+0200\n"
-"PO-Revision-Date: 2021-09-22 17:25+0200\n"
+"PO-Revision-Date: 2021-09-29 12:32+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=cp1252\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -62,7 +62,7 @@ msgstr "ALERTA"
 
 #: reporter.py:206
 msgid "DAILY SUMMARY BACKUPS"
-msgstr "REPORTE DIARIO DE COPIAS DE SEGURIDAD"
+msgstr "REPORTE BACKUPS DIARIO"
 
 #: reporter.py:256
 msgid "How to use"

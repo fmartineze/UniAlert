@@ -112,7 +112,8 @@ def apply_filters(filtros, SQLite_file):
             for payload in msg2.walk():               
                 ctype = payload.get_content_type()
                 cdispo = str(payload.get('Content-Disposition'))
-                if ctype == 'text/plain' and 'attachment' not in cdispo:
+                
+                if ctype == 'text/plain' and 'attachment' not in cdispo: # Si el contenido no está en texto plano, lo decodifica.
                     body = str(payload.get_payload(decode=True))
                 else:
                     body = payload.as_string()
